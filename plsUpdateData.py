@@ -288,7 +288,7 @@ def remove_from_data(index, status):
         f.write(json.dumps(data, indent=2))
     print("Datapoint deleted!")
     if index < 0:
-        index = data_len - index
+        index = data_len + index
     print(f'Removed datapoint #{str(index)} ({str(dp[0])}, {str(dp[1])}) from {gp[0]}.{gp[1]}.{gp[2]}')
     return True
 
@@ -521,7 +521,7 @@ def push_changes(status):
         print('Commiting unsaved changes before push..')
         subprocess.run(['git', 'add' , '.'], stdout=open(os.devnull, 'wb'))
         subprocess.run(['git', 'commit', '-m' 'pUD: Update graph values.'], stdout=open(os.devnull, 'wb'))
-    if 'Your branch is ahead' in str(output):
+    if 'Your branch is ahead' in str(output) or commited:
         out = subprocess.run(['git', 'push'], stdout=open(os.devnull, 'wb'))
         os.chdir(cwd)
         if out.returncode != 0:
