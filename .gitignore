@@ -1,4 +1,5 @@
-pUG_status.json
+pUD_status.json
+data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -8,7 +8,8 @@ import time
 from datetime import datetime, timezone
 
 
-DATAPATH = "plsData"
+DATAPATH = ""
+DATAREPO = "git@github.com:sl0ddi/plsData.git"
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 def required_length_splitted(nmin, nmax, separator):
@@ -66,7 +67,18 @@ def read_status():
     if 'last_action' in status:
         del status['last_action']
 
-    status['datapath'] = path + "/" + DATAPATH
+    status['datapath'] = path + "/data/" + DATAPATH
+    if not os.path.exists(path+ "/data"):
+        cwd = os.getcwd()
+        os.chdir(path)
+        out = subprocess.run(['git', 'clone', DATAREPO, "data"])
+        os.chdir(cwd)
+        if out.returncode != 0:
+            print('failed to clone datarepo..')
+            return None
+    if not os.path.exists(path + "/data/" + DATAPATH):
+        print('Could not find datapath!')
+        return None
     save_status(status)
     return status
 
@@ -521,6 +533,8 @@ def push_changes(status):
     return True, True, commited
 
 def main(args, status):
+    if not status:
+        return 1
     ret = do_actions(args, status)
     clear_crash_rep(status)
     return ret
