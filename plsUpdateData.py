@@ -8,7 +8,7 @@ import time
 from datetime import datetime, timezone
 
 
-DATAPATH = "data"
+DATAPATH = "plsData"
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 def required_length_splitted(nmin, nmax, separator):
